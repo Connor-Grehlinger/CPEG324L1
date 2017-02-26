@@ -78,10 +78,25 @@ int main(int argc, char **argv)
     bool iCodeTest = isAType(binaryInstructions[0]);
     bool iCodeTest2 = isAType(binaryInstructions[2]);
     
+    bool opCodeTest = isAddition(binaryInstructions[0]);
+    bool opCodeTestN = isAddition(binaryInstructions[1]);
+    
     printf("iCodeTest = %i \n", iCodeTest);
     printf("iCodeTest2 = %i \n", iCodeTest2);
+    
+    printf("opCodeTest = %i \n", opCodeTest);
+    printf("opCodeTestN = %i \n", opCodeTestN);
 
-
+    int reg1Value = destReg(binaryInstructions[0]);
+    int reg1Value2 = destReg(binaryInstructions[1]);
+    
+    printf("source1 register = %i \n", reg1Value);
+    printf("source1 register2 = %i \n", reg1Value2);
+    
+    int imm = immediateValue(binaryInstructions[4]);
+    printf("Immediate value = %i \n", imm);
+    
+    
     return 0;
     
 }

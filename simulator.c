@@ -27,6 +27,22 @@ bool isAddition(int instruction)
     return !((instruction >> 6) % 2);
 }
 
+/* Identifies I-type operation,
+returns true for load immediate,
+false for print or branch   */
+bool isLoadI(int instruction)
+{
+    return !((instruction >> 6) % 2);
+}
+
+/* Identifies the target register number    */
+int targetReg(int instruction)
+{
+    int reg1 = (instruction >> 4);
+    reg1 &= 0b0011;
+    return reg1;
+}
+
 /* Identifies source1 register number  */
 int source1Reg(int instruction)
 {
@@ -38,13 +54,23 @@ int source1Reg(int instruction)
 /* Identifies source2 register number  */
 int source2Reg(int instruction)
 {
-    return 0;
+    int reg2 = (instruction >> 2);
+    reg2 &= 0b0011;
+    return reg2;
 }
 
 /* Identifies destination register number  */
 int destReg(int instruction)
 {
-    return 0;
+    int dstReg = instruction;
+    dstReg &= 0b0011;
+    return dstReg;
 }
 
-
+/* Identifies the immediate value,
+immediate values for print operations
+must be 0000        */
+int immediateValue(int instruction)
+{
+    return (instruction & 0b1111);
+}

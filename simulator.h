@@ -24,12 +24,20 @@ struct Register
 /* Identifies instruction-type, 
 returns true for A-type instructions,
 false for I-type instrctions    */
-bool isAType(int instruction);      
+bool isAType(int instruction);     
 
 /* Identifies A-type operation, 
 returns true for addition,
 false for subtraction    */
 bool isAddition(int instruction);
+
+/* Identifies I-type operation,
+returns true for load immediate,
+false for print or branch   */
+bool isLoadI(int instruction);
+
+/* Identifies the target register number    */
+int targetReg(int instruction);
 
 /* Identifies source1 register number  */
 int source1Reg(int instruction);
@@ -39,5 +47,10 @@ int source2Reg(int instruction);
 
 /* Identifies destination register number  */
 int destReg(int instruction);
+
+/* Identifies the immediate value,
+immediate values for print operations
+must be 0000        */
+int immediateValue(int instruction);
 
 #endif
