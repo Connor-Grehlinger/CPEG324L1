@@ -13,14 +13,70 @@ The simulator shouldn’t accept any other input.
 #include "simulator.h"
 
 
-int main(){
+
+
+// Four addressable registers for simualtor
+Register r0 = initialRegister;
+Register r1 = initialRegister;
+Register r2 = initialRegister;
+Register r3 = initialRegister;
+
+int binaryInstructions[1000];
+
+
+int main(int argc, char **argv)
+{
+    
+    int c;
+    char *input = argv[1];
+    FILE *simulator_input;
+    
+    simulator_input = fopen("test_input.txt", "r");
+    
+    unsigned int currentInstruction = 0;    // this is the instruction as a number value
+    
+    if (simulator_input == 0)
+    {
+        perror("Cannot open simulator input file \n");
+        exit(-1);
+    }
+    else
+    {
+        
+        unsigned int instructionNumber = 0;
+        while ((c = fgetc(simulator_input)) != EOF)
+        {
+            // check if its the end of the instruction 
+            // end of line detection condition: line[len-1] == '\n' || feof(fp)
+            
+            currentInstruction <<= 1;           // shift by 1 is multiplying by 2
+            if (c == '1') 
+            {
+                currentInstruction ^= 1;
+                //printf("Loop test instruction value %i \n", currentInstruction);
+            }
+            
+            if (c == '\n' || feof(simulator_input))    // end of the instruction line
+            {
+                currentInstruction >>= 1;               // bring back the correct value
+                printf("Hit: currentInstruction = %i \n", currentInstruction);
+                printf("Instruction number = %i \n", instructionNumber);
+                binaryInstructions[instructionNumber] = currentInstruction;
+                currentInstruction = 0;
+                instructionNumber++;
+            }
+        }
+        binaryInstructions[instructionNumber] = currentInstruction;     // take care of the last instruction 
+    }
     
     
-    printf("Hello World! \n");
-    
-    
-    
-    
+    printf("Test instruction value %i \n", binaryInstructions[0]);
+    printf("Test instruction value %i \n", binaryInstructions[1]);
+    printf("Test instruction value %i \n", binaryInstructions[2]);
+    printf("Test instruction value %i \n", binaryInstructions[3]);
+    printf("Test instruction value %i \n", binaryInstructions[4]);
+
+
     return 0;
     
 }
