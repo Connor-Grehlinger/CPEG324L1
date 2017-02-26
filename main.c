@@ -68,6 +68,7 @@ int main(int argc, char **argv)
         binaryInstructions[instructionNumber] = currentInstruction;     // take care of the last instruction 
     }
     
+    unsigned int totalNumberOfInstructions = instructionNumber;
     
     printf("Test instruction value %i \n", binaryInstructions[0]);
     printf("Test instruction value %i \n", binaryInstructions[1]);
@@ -96,6 +97,18 @@ int main(int argc, char **argv)
     int imm = immediateValue(binaryInstructions[4]);
     printf("Immediate value = %i \n", imm);
     
+    // Have a loop to iterate through all the newly created 
+    // instructions in the array of instructions 
+    
+    unsigned int i;
+    for (i = 0; i < totalNumberOfInstructions; i++)
+    {
+        if (isAType(binaryInstructions[i]))
+        {
+            
+        }
+            
+    }
     
     return 0;
     
