@@ -1,5 +1,4 @@
-/*
-Connor Grehlinger, CPEG324
+/* Connor Grehlinger, CPEG324
 main.c for ISA simulator 
 
 Task 2: (Individual Work) Implement the ISA in a simulator written in C 
@@ -15,11 +14,11 @@ The simulator shouldn’t accept any other input.
 
 
 
-// Four addressable registers for simualtor
-Register r0 = initialRegister;
-Register r1 = initialRegister;
-Register r2 = initialRegister;
-Register r3 = initialRegister;
+// Four addressable registers for simualtor, initial value of 0
+Register r0 = {.registerValue = 0};
+Register r1 = {.registerValue = 0};
+Register r2 = {.registerValue = 0};
+Register r3 = {.registerValue = 0};
 
 int binaryInstructions[1000];
 
@@ -59,8 +58,8 @@ int main(int argc, char **argv)
             if (c == '\n' || feof(simulator_input))    // end of the instruction line
             {
                 currentInstruction >>= 1;               // bring back the correct value
-                printf("Hit: currentInstruction = %i \n", currentInstruction);
-                printf("Instruction number = %i \n", instructionNumber);
+                //printf("Hit: currentInstruction = %i \n", currentInstruction);
+                //printf("Instruction number = %i \n", instructionNumber);
                 binaryInstructions[instructionNumber] = currentInstruction;
                 currentInstruction = 0;
                 instructionNumber++;
@@ -75,6 +74,12 @@ int main(int argc, char **argv)
     printf("Test instruction value %i \n", binaryInstructions[2]);
     printf("Test instruction value %i \n", binaryInstructions[3]);
     printf("Test instruction value %i \n", binaryInstructions[4]);
+
+    bool iCodeTest = isAType(binaryInstructions[0]);
+    bool iCodeTest2 = isAType(binaryInstructions[2]);
+    
+    printf("iCodeTest = %i \n", iCodeTest);
+    printf("iCodeTest2 = %i \n", iCodeTest2);
 
 
     return 0;

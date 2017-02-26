@@ -1,3 +1,6 @@
+#ifndef SIMULATOR_H_
+#define SIMULATOR_H_
+
 // Connor Grehlinger, CPEG324
 // Header file for ISA simulator 
 
@@ -13,7 +16,7 @@
 struct Register
 {
     int registerValue;
-} initialRegister = {0};
+};
 
 
 // now you have actual integer binary instructions, you can just (number >> 7) & 1, etc.
@@ -36,3 +39,5 @@ int source2Reg(int instruction);
 
 /* Identifies destination register number  */
 int destReg(int instruction);
+
+#endif
