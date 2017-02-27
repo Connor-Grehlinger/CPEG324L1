@@ -44,21 +44,16 @@ int main(int argc, char **argv)
         
         while ((c = fgetc(simulator_input)) != EOF)
         {
-            // check if its the end of the instruction 
-            // end of line detection condition: line[len-1] == '\n' || feof(fp)
             
-            currentInstruction <<= 1;           // shift by 1 is multiplying by 2
+            currentInstruction <<= 1;                   // shift left by 1 is multiplying by 2
             if (c == '1') 
             {
                 currentInstruction ^= 1;
-                //printf("Loop test instruction value %i \n", currentInstruction);
             }
             
-            if (c == '\n' || feof(simulator_input))    // end of the instruction line
+            if (c == '\n' || feof(simulator_input))     // end of the instruction line
             {
                 currentInstruction >>= 1;               // bring back the correct value
-                //printf("Hit: currentInstruction = %i \n", currentInstruction);
-                //printf("Instruction number = %i \n", instructionNumber);
                 binaryInstructions[instructionNumber] = currentInstruction;
                 currentInstruction = 0;
                 instructionNumber++;
@@ -67,7 +62,7 @@ int main(int argc, char **argv)
         binaryInstructions[instructionNumber] = currentInstruction;     // take care of the last instruction 
     }
     
-    unsigned int totalNumberOfInstructions = instructionNumber;
+    unsigned int totalNumberOfInstructions = instructionNumber + 1;
     
     /*
     printf("Test instruction value %i \n", binaryInstructions[0]);
@@ -100,21 +95,22 @@ int main(int argc, char **argv)
     // Have a loop to iterate through all the newly created 
     // instructions in the array of instructions 
     */
-    unsigned int i;
-    //for (i = 0; i < totalNumberOfInstructions; i++)
-    for (i = 0; i < 1; i++)
+    
+    unsigned int instruction_index;
+    
+    for (instruction_index = 0; instruction_index < totalNumberOfInstructions; instruction_index++)
     {
-        if (isAType(binaryInstructions[i]))
+        if (isAType(binaryInstructions[instruction_index]))
         {
-            if (isAddition(binaryInstructions[i]))
+            if (isAddition(binaryInstructions[instruction_index]))
             {
                 // decode registers for addition operation
                 printf("Hit addition\n");
-                unsigned int source1 = source1Reg(binaryInstructions[i]);
-                unsigned int source2 = source2Reg(binaryInstructions[i]);
-                unsigned int dest = destReg(binaryInstructions[i]);
+                unsigned int source1 = source1Reg(binaryInstructions[instruction_index]);
+                unsigned int source2 = source2Reg(binaryInstructions[instruction_index]);
+                unsigned int dest = destReg(binaryInstructions[instruction_index]);
                 
-                printf("1st reg = %i, 2nd reg = %i, dest reg = %i \n", source1, source2, dest);
+                printf("1st reg# = r%i, 2nd reg# = r%i, dest reg# = r%i \n", source1, source2, dest);
                 int firstOp = getRegisterContent(source1, r0, r1, r2, r3);
                 int secondOp = getRegisterContent(source2, r0, r1, r2, r3);
                 int sum = firstOp + secondOp;
@@ -125,11 +121,11 @@ int main(int argc, char **argv)
             {
                 // decode registers for subtraction operation 
                 printf("Hit subtraction\n");
-                unsigned int source1 = source1Reg(binaryInstructions[i]);
-                unsigned int source2 = source2Reg(binaryInstructions[i]);
-                unsigned int dest = destReg(binaryInstructions[i]);
+                unsigned int source1 = source1Reg(binaryInstructions[instruction_index]);
+                unsigned int source2 = source2Reg(binaryInstructions[instruction_index]);
+                unsigned int dest = destReg(binaryInstructions[instruction_index]);
                 
-                printf("1st reg = %i, 2nd reg = %i, dest reg = %i \n", source1, source2, dest);
+                printf("1st reg# = r%i, 2nd reg# = r%i, dest reg# = r%i \n", source1, source2, dest);
                 int firstOp = getRegisterContent(source1, r0, r1, r2, r3);
                 int secondOp = getRegisterContent(source2, r0, r1, r2, r3);
                 int diff = firstOp - secondOp;
@@ -140,39 +136,61 @@ int main(int argc, char **argv)
         else
         {
             // must be I-type instruction
-            if (isLoadI(binaryInstructions[i]))
+            if (isLoadI(binaryInstructions[instruction_index]))
             {
-                unsigned int targetRegNum = targetReg(binaryInstructions[i]);
-                int immediateVal = signExtensionConvert(getImmediateValue(binaryInstructions[i]));
-                printf("Immediate value = %i \n", immediateVal);
+                unsigned int targetRegNum = targetReg(binaryInstructions[instruction_index]);
+                int immediateVal = signExtensionConvert(getImmediateValue(binaryInstructions[instruction_index]));
+                printf("Loading immediate value = %i into r%i \n", immediateVal, targetRegNum);
                 setRegisterContent(targetRegNum, immediateVal, r0, r1, r2, r3);
             }
             else
             {
                 // must be print or branch instruction 
-                if (!isPrintInstruction(binaryInstructions[i]))
+                if (!isPrintInstruction(binaryInstructions[instruction_index]))
                 {
-                    // checking for branches first, likely to be more common 
-                    // if (immediate value == 1){
-                        // i++ skip next instruction 
-                    // if (immediate value == 2){
-                        // i += 2 skip next 2 instrcutions    
+                    // branch instruction
+                    unsigned int targetRegNum = targetReg(binaryInstructions[instruction_index]);
+                    int registerValue = getRegisterContent(targetRegNum, r0, r1, r2, r3);
                     
+                    printf("Branching based on r%i, whose value is: %i \n", targetRegNum, registerValue);
                     
+                    if (registerValue == 0)
+                    {
+                        if (getImmediateValue(binaryInstructions[instruction_index]) == 1)
+                        {
+                            printf("Branch1, should be no r0 printout. \n");
+                            instruction_index++;        // skip the next instruction
+                        }
+                        else if (getImmediateValue(binaryInstructions[instruction_index]) == 2)
+                        {
+                            printf("Branch2, should be no r0 or r1 printout. \n");
+                            instruction_index+=2;     // skip the next two instructions 
+                        }
+                        else
+                        {
+                            perror("Invalid Instruction");
+                            exit(-2);
+                        }
+                    }
+                    else
+                    {
+                        printf("Target register value != 0 \n");
+                        continue;
+                    }
                 }
+                
                 else
                 {
                     // print instruction 
-                    unsigned int targetRegNum = targetReg(binaryInstructions[i]);
+                    unsigned int targetRegNum = targetReg(binaryInstructions[instruction_index]);
                     int printValue = getRegisterContent(targetRegNum, r0, r1, r2, r3);
-                    printf("Register $r%i content: %i \n", targetRegNum, printValue);
+                    printf("Print executed. Register $r%i content: %i \n", targetRegNum, printValue);
                 }
-                
             }
         }
     }
     
-    printf("Register values: r0 = %i, r1 = %i, r2 = %i, r3 = %i \n", r0.registerValue,
+    printf("End, register values: r0 = %i, r1 = %i, r2 = %i, r3 = %i \n", r0.registerValue,
     r1.registerValue, r2.registerValue, r3.registerValue);
     
     return 0;
