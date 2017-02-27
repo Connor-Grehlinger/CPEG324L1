@@ -53,4 +53,12 @@ immediate values for print operations
 must be 0000        */
 int immediateValue(int instruction);
 
+/* Return the content of a specified register */
+int getRegisterContent(unsigned int registerNumber, Register& r0, Register& r1,
+                        Register& r2, Register& r3);
+
+/* Set the content of a specified register    */
+void setRegisterContent(unsigned int registerNumber, int result, Register& r0, 
+Register& r1, Register& r2, Register& r3);
+
 #endif

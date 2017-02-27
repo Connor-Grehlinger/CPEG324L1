@@ -74,3 +74,52 @@ int immediateValue(int instruction)
 {
     return (instruction & 0b1111);
 }
+
+/* Return the content of a specified register */
+int getRegisterContent(unsigned int registerNumber, Register& r0, Register& r1,
+                        Register& r2, Register& r3)
+{
+    int registerContent;
+    
+    switch (registerNumber)
+    {
+        case 0:
+        registerContent = r0.registerValue;
+        
+        case 1:
+        registerContent = r1.registerValue;
+
+        case 2:
+        registerContent = r2.registerValue;
+        
+        default:
+        registerContent = r3.registerValue;
+        
+    }
+    
+    return registerContent;
+}
+
+/* Set the content of a specified register    */
+void setRegisterContent(unsigned int registerNumber, int result, Register& r0, 
+                        Register& r1, Register& r2, Register& r3)
+{
+    switch (registerNumber)
+    {
+        case 0:
+        r0.registerValue = result;
+        
+        case 1:
+        r1.registerValue = result;
+
+        case 2:
+        r2.registerValue = result;
+        
+        default:
+        r3.registerValue = result;
+        
+    }
+}
+
+    
+                                    

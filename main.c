@@ -16,8 +16,8 @@ The simulator shouldn’t accept any other input.
 
 // Four addressable registers for simualtor, initial value of 0
 Register r0 = {.registerValue = 0};
-Register r1 = {.registerValue = 0};
-Register r2 = {.registerValue = 0};
+Register r1 = {.registerValue = 2};
+Register r2 = {.registerValue = 7};
 Register r3 = {.registerValue = 0};
 
 int binaryInstructions[1000];
@@ -30,10 +30,10 @@ int main(int argc, char **argv)
     char *input = argv[1];
     FILE *simulator_input;
     
-    simulator_input = fopen("test_input.txt", "r");
+    simulator_input = fopen("input.txt", "r");
     
     unsigned int currentInstruction = 0;    // this is the instruction as a number value
-    
+    unsigned int instructionNumber = 0;
     if (simulator_input == 0)
     {
         perror("Cannot open simulator input file \n");
@@ -42,7 +42,6 @@ int main(int argc, char **argv)
     else
     {
         
-        unsigned int instructionNumber = 0;
         while ((c = fgetc(simulator_input)) != EOF)
         {
             // check if its the end of the instruction 
@@ -70,6 +69,7 @@ int main(int argc, char **argv)
     
     unsigned int totalNumberOfInstructions = instructionNumber;
     
+    /*
     printf("Test instruction value %i \n", binaryInstructions[0]);
     printf("Test instruction value %i \n", binaryInstructions[1]);
     printf("Test instruction value %i \n", binaryInstructions[2]);
@@ -99,16 +99,41 @@ int main(int argc, char **argv)
     
     // Have a loop to iterate through all the newly created 
     // instructions in the array of instructions 
-    
+    */
     unsigned int i;
-    for (i = 0; i < totalNumberOfInstructions; i++)
+    //for (i = 0; i < totalNumberOfInstructions; i++)
+    for (i = 0; i < 1; i++)
     {
         if (isAType(binaryInstructions[i]))
         {
             
+            
+            if (isAddition(binaryInstructions[i]))
+            {
+                // decode register numbers
+                
+                printf("Hit\n");
+                int source1 = source1Reg(binaryInstructions[i]);
+                int source2 = source2Reg(binaryInstructions[i]);
+                int dest = destReg(binaryInstructions[i]);
+                
+                printf("1 = %i, 2 = %i, dest = %i \n", source1, source2, dest);
+                int firstOp = getRegisterContent(source1, r0, r1, r2, r3);
+                int secondOp = getRegisterContent(source2, r0, r1, r2, r3);
+                int sum = firstOp + secondOp;
+                printf("Sum = %i \n", sum);
+                setRegisterContent(dest, sum, r0, r1, r2, r3);
+                
+                
+            }
+            
+            
         }
             
     }
+    
+    printf("Register values: r0 = %i, r1 = %i, r2 = %i, r3 = %i \n", r0.registerValue,
+    r1.registerValue, r2.registerValue, r3.registerValue);
     
     return 0;
     
