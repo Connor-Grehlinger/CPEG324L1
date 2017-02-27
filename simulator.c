@@ -70,7 +70,7 @@ int destReg(int instruction)
 /* Identifies the immediate value,
 immediate values for print operations
 must be 0000        */
-int immediateValue(int instruction)
+int getImmediateValue(int instruction)
 {
     return (instruction & 0b1111);
 }
@@ -127,14 +127,15 @@ void setRegisterContent(unsigned int registerNumber, int result, Register& r0,
     }
 }
 
+/* Handles sign-extended immediate values     */
 int signExtensionConvert(int immediate)
 {
-    // example uses 18 bits, we have 4 for this
-    int negativeInt = (immediate & (1 << 17)) != 0;
-    int registerInt;
-    if (negativeInt)
+    // check sign bit 
+    short isNegative = (immediate & (1 << 3)) != 0;
+    int registerInt;    // native int for simulation 
+    if (isNegative)
     {
-        registerInt = immediate | ~((1 << 18) -1);
+        registerInt = immediate | ~((1 << 4) -1);
     }
     else
     {
@@ -143,5 +144,19 @@ int signExtensionConvert(int immediate)
     return registerInt;
 }
 
-    
-                                    
+
+/* Determines whether an I-type instruction 
+with opcode 1 is a print instructon   */    
+bool isPrintInstruction(int instruction)
+{
+    short immediateVal = getImmediateValue(instruction);
+    // print instruction if immediate value is == 0
+    if (!immediateVal)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}

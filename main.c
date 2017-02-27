@@ -143,10 +143,30 @@ int main(int argc, char **argv)
             if (isLoadI(binaryInstructions[i]))
             {
                 unsigned int targetRegNum = targetReg(binaryInstructions[i]);
-                int immediateVal = immediateValue(binaryInstructions[i]);
+                int immediateVal = signExtensionConvert(getImmediateValue(binaryInstructions[i]));
                 printf("Immediate value = %i \n", immediateVal);
                 setRegisterContent(targetRegNum, immediateVal, r0, r1, r2, r3);
-                
+            }
+            else
+            {
+                // must be print or branch instruction 
+                if (!isPrintInstruction(binaryInstructions[i]))
+                {
+                    // checking for branches first, likely to be more common 
+                    // if (immediate value == 1){
+                        // i++ skip next instruction 
+                    // if (immediate value == 2){
+                        // i += 2 skip next 2 instrcutions    
+                    
+                    
+                }
+                else
+                {
+                    // print instruction 
+                    unsigned int targetRegNum = targetReg(binaryInstructions[i]);
+                    int printValue = getRegisterContent(targetRegNum, r0, r1, r2, r3);
+                    printf("Register $r%i content: %i \n", targetRegNum, printValue);
+                }
                 
             }
         }
