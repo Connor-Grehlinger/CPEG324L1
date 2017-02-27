@@ -85,12 +85,15 @@ int getRegisterContent(unsigned int registerNumber, Register& r0, Register& r1,
     {
         case 0:
         registerContent = r0.registerValue;
+        break;
         
         case 1:
         registerContent = r1.registerValue;
+        break;
 
         case 2:
         registerContent = r2.registerValue;
+        break;
         
         default:
         registerContent = r3.registerValue;
@@ -108,17 +111,36 @@ void setRegisterContent(unsigned int registerNumber, int result, Register& r0,
     {
         case 0:
         r0.registerValue = result;
+        break;
         
         case 1:
         r1.registerValue = result;
+        break;
 
         case 2:
         r2.registerValue = result;
+        break;
         
         default:
         r3.registerValue = result;
         
     }
+}
+
+int signExtensionConvert(int immediate)
+{
+    // example uses 18 bits, we have 4 for this
+    int negativeInt = (immediate & (1 << 17)) != 0;
+    int registerInt;
+    if (negativeInt)
+    {
+        registerInt = immediate | ~((1 << 18) -1);
+    }
+    else
+    {
+        registerInt = immediate;
+    }
+    return registerInt;
 }
 
     

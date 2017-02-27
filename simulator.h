@@ -61,4 +61,7 @@ int getRegisterContent(unsigned int registerNumber, Register& r0, Register& r1,
 void setRegisterContent(unsigned int registerNumber, int result, Register& r0, 
 Register& r1, Register& r2, Register& r3);
 
+/* Handles sign-extended immediate values     */
+int signExtensionConvert(int immediate);
+
 #endif

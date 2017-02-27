@@ -16,8 +16,8 @@ The simulator shouldn’t accept any other input.
 
 // Four addressable registers for simualtor, initial value of 0
 Register r0 = {.registerValue = 0};
-Register r1 = {.registerValue = 2};
-Register r2 = {.registerValue = 7};
+Register r1 = {.registerValue = 0};
+Register r2 = {.registerValue = 0};
 Register r3 = {.registerValue = 0};
 
 int binaryInstructions[1000];
@@ -106,30 +106,50 @@ int main(int argc, char **argv)
     {
         if (isAType(binaryInstructions[i]))
         {
-            
-            
             if (isAddition(binaryInstructions[i]))
             {
-                // decode register numbers
+                // decode registers for addition operation
+                printf("Hit addition\n");
+                unsigned int source1 = source1Reg(binaryInstructions[i]);
+                unsigned int source2 = source2Reg(binaryInstructions[i]);
+                unsigned int dest = destReg(binaryInstructions[i]);
                 
-                printf("Hit\n");
-                int source1 = source1Reg(binaryInstructions[i]);
-                int source2 = source2Reg(binaryInstructions[i]);
-                int dest = destReg(binaryInstructions[i]);
-                
-                printf("1 = %i, 2 = %i, dest = %i \n", source1, source2, dest);
+                printf("1st reg = %i, 2nd reg = %i, dest reg = %i \n", source1, source2, dest);
                 int firstOp = getRegisterContent(source1, r0, r1, r2, r3);
                 int secondOp = getRegisterContent(source2, r0, r1, r2, r3);
                 int sum = firstOp + secondOp;
                 printf("Sum = %i \n", sum);
                 setRegisterContent(dest, sum, r0, r1, r2, r3);
+            }
+            else
+            {
+                // decode registers for subtraction operation 
+                printf("Hit subtraction\n");
+                unsigned int source1 = source1Reg(binaryInstructions[i]);
+                unsigned int source2 = source2Reg(binaryInstructions[i]);
+                unsigned int dest = destReg(binaryInstructions[i]);
+                
+                printf("1st reg = %i, 2nd reg = %i, dest reg = %i \n", source1, source2, dest);
+                int firstOp = getRegisterContent(source1, r0, r1, r2, r3);
+                int secondOp = getRegisterContent(source2, r0, r1, r2, r3);
+                int diff = firstOp - secondOp;
+                printf("Diff = %i \n", diff);
+                setRegisterContent(dest, diff, r0, r1, r2, r3);
+            }
+        }
+        else
+        {
+            // must be I-type instruction
+            if (isLoadI(binaryInstructions[i]))
+            {
+                unsigned int targetRegNum = targetReg(binaryInstructions[i]);
+                int immediateVal = immediateValue(binaryInstructions[i]);
+                printf("Immediate value = %i \n", immediateVal);
+                setRegisterContent(targetRegNum, immediateVal, r0, r1, r2, r3);
                 
                 
             }
-            
-            
         }
-            
     }
     
     printf("Register values: r0 = %i, r1 = %i, r2 = %i, r3 = %i \n", r0.registerValue,
