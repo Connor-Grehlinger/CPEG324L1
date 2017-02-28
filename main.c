@@ -10,7 +10,7 @@ The simulator shouldn’t accept any other input.
 */
 
 #include "simulator.h"
-
+#include "benchmark.h"
 
 
 

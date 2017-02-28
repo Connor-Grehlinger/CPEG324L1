@@ -4,13 +4,8 @@
 // Connor Grehlinger, CPEG324
 // Header file for ISA simulator 
 
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-// How to implement the simulator?
-// need to take in a string of 0s and 1s, decode it and output based on it
-
 
 
 struct Register
