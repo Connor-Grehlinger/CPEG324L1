@@ -4,7 +4,6 @@
 #include "benchmark.h"
 
 
-
 // Four addressable registers for simualtor, initial value of 0
 Register r0 = {.registerValue = 0};
 Register r1 = {.registerValue = 0};
@@ -16,15 +15,52 @@ int binaryInstructions[1000];
 
 int main(int argc, char **argv)
 {
+    /* Test modes:
+    0 --> initial value and print test
+    1 --> loading immediates test
+    2 --> addition instruction test
+    3 --> subtraction instruction test
+    4 --> register compare and branching test
+    */
+    
+    unsigned int testMode = 4;
+    const char* inFile;
+    
+    switch(testMode)
+    {
+        case 0:
+        inFile = "initial_value_and_print_test.txt";
+        break;
+        
+        case 1:
+        inFile = "loading_immediates_test.txt";
+        break;
+        
+        case 2:
+        inFile = "addition_instruction_test.txt";
+        break;
+        
+        case 3:
+        inFile = "subtraction_instruction_test.txt";
+        break;
+        
+        default:
+        inFile = "branching_instruction_test.txt";
+        
+    }
+    
+    double startTime = getTime();           // Start simulator timer
     
     int c;
     char *input = argv[1];
     FILE *simulator_input;
+
+    // Get instruction file 
+    simulator_input = fopen(inFile, "r");     
     
-    simulator_input = fopen("input.txt", "r");
+    unsigned int currentInstruction = 0;    // Instruction as a numerical value
+    unsigned int instructionNumber = 0;     // Current instruction number
     
-    unsigned int currentInstruction = 0;    // this is the instruction as a number value
-    unsigned int instructionNumber = 0;
     if (simulator_input == 0)
     {
         perror("Cannot open simulator input file \n");
@@ -33,24 +69,24 @@ int main(int argc, char **argv)
     else
     {
         
-        while ((c = fgetc(simulator_input)) != EOF)
+        while ((c = fgetc(simulator_input)) != EOF)     // While input file is valid
         {
             
-            currentInstruction <<= 1;                   // shift left by 1 is multiplying by 2
+            currentInstruction <<= 1;                   // Shift left by 1 is multiplying by 2
             if (c == '1') 
             {
                 currentInstruction ^= 1;
             }
             
-            if (c == '\n' || feof(simulator_input))     // end of the instruction line
+            if (c == '\n' || feof(simulator_input))     // End of the instruction line
             {
-                currentInstruction >>= 1;               // bring back the correct value
+                currentInstruction >>= 1;               // Bring back the correct value
                 binaryInstructions[instructionNumber] = currentInstruction;
                 currentInstruction = 0;
                 instructionNumber++;
             }
         }
-        binaryInstructions[instructionNumber] = currentInstruction;     // take care of the last instruction 
+        binaryInstructions[instructionNumber] = currentInstruction; // Take care of the last instruction 
     }
     
     unsigned int totalNumberOfInstructions = instructionNumber + 1;
@@ -89,15 +125,14 @@ int main(int argc, char **argv)
     
     unsigned int instruction_index;
     
-    double startTime = getTime();
-    
     for (instruction_index = 0; instruction_index < totalNumberOfInstructions; instruction_index++)
     {
         if (isAType(binaryInstructions[instruction_index]))
         {
+            // A-type instruction 
             if (isAddition(binaryInstructions[instruction_index]))
             {
-                // decode registers for addition operation
+                // Decode registers for addition operation
                 printf("Addition\n");
                 unsigned int source1 = source1Reg(binaryInstructions[instruction_index]);
                 unsigned int source2 = source2Reg(binaryInstructions[instruction_index]);
@@ -111,7 +146,7 @@ int main(int argc, char **argv)
             }
             else
             {
-                // decode registers for subtraction operation 
+                // Decode registers for subtraction operation 
                 printf("Subtraction\n");
                 unsigned int source1 = source1Reg(binaryInstructions[instruction_index]);
                 unsigned int source2 = source2Reg(binaryInstructions[instruction_index]);
@@ -126,20 +161,20 @@ int main(int argc, char **argv)
         }
         else
         {
-            // must be I-type instruction
+            // I-type instruction
             if (isLoadI(binaryInstructions[instruction_index]))
             {
                 unsigned int targetRegNum = targetReg(binaryInstructions[instruction_index]);
                 int immediateVal = signExtensionConvert(getImmediateValue(binaryInstructions[instruction_index]));
-                printf("Loading immediate value: %i into r%i \n", immediateVal, targetRegNum);
+                //printf("Loading immediate value: %i into r%i \n", immediateVal, targetRegNum);
                 setRegisterContent(targetRegNum, immediateVal, r0, r1, r2, r3);
             }
             else
             {
-                // must be print or branch instruction 
+                // Branch or print instruction 
                 if (!isPrintInstruction(binaryInstructions[instruction_index]))
                 {
-                    // branch instruction
+                    // Branch instruction
                     unsigned int targetRegNum = targetReg(binaryInstructions[instruction_index]);
                     int registerValue = getRegisterContent(targetRegNum, r0, r1, r2, r3);
                     
@@ -172,20 +207,48 @@ int main(int argc, char **argv)
                 
                 else
                 {
-                    // print instruction 
+                    // Print instruction 
                     unsigned int targetRegNum = targetReg(binaryInstructions[instruction_index]);
                     int printValue = getRegisterContent(targetRegNum, r0, r1, r2, r3);
-                    printf("Print executed. Register $r%i content: %i \n", targetRegNum, printValue);
+                    printf("Register $r%i content: %i \n", targetRegNum, printValue);
                 }
             }
         }
     }
     
+    
+    bool testOutcome = false;
+    
+    switch(testMode)
+    {
+        case 0:
+        testOutcome = initialValueAndPrintTest(r0,r1,r2,r3);
+        break;
+        
+        case 1:
+        testOutcome = loadingImmediatesTest(r0,r1,r2,r3);
+        break;
+        
+        case 2:
+        testOutcome = additionInstructionTest(r0,r1,r2,r3);
+        break;
+        
+        case 3:
+        testOutcome = subtractionInstructionTest(r0,r1,r2,r3);
+        break;
+        
+        default:
+        testOutcome = branchingInstructionTest(r0,r1,r2,r3);
+        
+    }
+    
     double endTime = getTime();
     double totalSimTime = startTime - endTime;
     
+    printf("Running in test mode %i. Test outcome: %i (1 = pass, 0 = fail).\n", testMode, testOutcome);
     printf("End. Simulator time: %f . Register values: r0 = %i, r1 = %i, r2 = %i, r3 = %i \n", totalSimTime, r0.registerValue,
     r1.registerValue, r2.registerValue, r3.registerValue);
+    
     
     return 0;
     
