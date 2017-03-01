@@ -23,7 +23,7 @@ int main(int argc, char **argv)
     4 --> register compare and branching test
     */
     
-    unsigned int testMode = 3;
+    unsigned int testMode = 8;
     const char* inFile;
     
     switch(testMode)
@@ -166,7 +166,7 @@ int main(int argc, char **argv)
             {
                 unsigned int targetRegNum = targetReg(binaryInstructions[instruction_index]);
                 int immediateVal = signExtensionConvert(getImmediateValue(binaryInstructions[instruction_index]));
-                //printf("Loading immediate value: %i into r%i \n", immediateVal, targetRegNum);
+                printf("Loading immediate value: %i into r%i \n", immediateVal, targetRegNum);
                 setRegisterContent(targetRegNum, immediateVal, r0, r1, r2, r3);
             }
             else
