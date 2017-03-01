@@ -10,7 +10,7 @@
 
 struct Register
 {
-    short registerValue;
+    signed char registerValue;
 };
 
 
