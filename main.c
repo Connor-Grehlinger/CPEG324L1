@@ -23,7 +23,7 @@ int main(int argc, char **argv)
     4 --> register compare and branching test
     */
     
-    unsigned int testMode = 4;
+    unsigned int testMode = 3;
     const char* inFile;
     
     switch(testMode)
