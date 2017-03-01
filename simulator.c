@@ -2,6 +2,7 @@
 C source file for ISA simulator 
 */
 
+#include <stdbool.h>
 #include "simulator.h"
 
 /* Identifies instruction-type, 
@@ -69,27 +70,27 @@ int getImmediateValue(int instruction)
 }
 
 /* Return the content of a specified register */
-int getRegisterContent(unsigned int registerNumber, Register& r0, Register& r1,
-                        Register& r2, Register& r3)
+int getRegisterContent(unsigned int registerNumber, Register* r0, Register* r1,
+                        Register* r2, Register* r3)
 {
     int registerContent;
     
     switch (registerNumber)
     {
         case 0:
-        registerContent = r0.registerValue;
+        registerContent = r0->registerValue;
         break;
         
         case 1:
-        registerContent = r1.registerValue;
+        registerContent = r1->registerValue;
         break;
 
         case 2:
-        registerContent = r2.registerValue;
+        registerContent = r2->registerValue;
         break;
         
         default:
-        registerContent = r3.registerValue;
+        registerContent = r3->registerValue;
         
     }
     
@@ -97,25 +98,25 @@ int getRegisterContent(unsigned int registerNumber, Register& r0, Register& r1,
 }
 
 /* Set the content of a specified register    */
-void setRegisterContent(unsigned int registerNumber, int result, Register& r0, 
-                        Register& r1, Register& r2, Register& r3)
+void setRegisterContent(unsigned int registerNumber, int result, Register* r0, 
+                        Register* r1, Register* r2, Register* r3)
 {
     switch (registerNumber)
     {
         case 0:
-        r0.registerValue = result;
+        r0->registerValue = result;
         break;
         
         case 1:
-        r1.registerValue = result;
+        r1->registerValue = result;
         break;
 
         case 2:
-        r2.registerValue = result;
+        r2->registerValue = result;
         break;
         
         default:
-        r3.registerValue = result;
+        r3->registerValue = result;
         
     }
 }

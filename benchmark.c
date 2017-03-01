@@ -17,13 +17,13 @@ double getTime()
     
 }
 
-bool initialValueAndPrintTest(Register& r0, Register& r1, Register& r2, Register& r3)
+bool initialValueAndPrintTest(Register* r0, Register* r1, Register* r2, Register* r3)
 {
-    // assert(r0.registerValue, 0);
-    // assert(r1.registerValue, 0);
-    // assert(r2.registerValue, 0);
-    // assert(r3.registerValue, 0);
-    if((!r0.registerValue) && (!r1.registerValue) && (!r2.registerValue) && (!r3.registerValue))
+    // assert(r0->registerValue, 0);
+    // assert(r1->registerValue, 0);
+    // assert(r2->registerValue, 0);
+    // assert(r3->registerValue, 0);
+    if((!r0->registerValue) && (!r1->registerValue) && (!r2->registerValue) && (!r3->registerValue))
     {
         return true;
     }
@@ -31,28 +31,28 @@ bool initialValueAndPrintTest(Register& r0, Register& r1, Register& r2, Register
     // Print instruction functionality determined by viewing console output
 }
 
-bool loadingImmediatesTest(Register& r0, Register& r1, Register& r2, Register& r3)
+bool loadingImmediatesTest(Register* r0, Register* r1, Register* r2, Register* r3)
 {
-    if ((r0.registerValue == -2) &&  (r1.registerValue == 4) && (r2.registerValue == -6) && (r3.registerValue == 3))
+    if ((r0->registerValue == -2) &&  (r1->registerValue == 4) && (r2->registerValue == -6) && (r3->registerValue == 3))
     {
         return true;
     }
     return false;
 }
 
-bool additionInstructionTest(Register& r0, Register& r1, Register& r2, Register& r3)
+bool additionInstructionTest(Register* r0, Register* r1, Register* r2, Register* r3)
 {
     return false;
 }
 
-bool subtractionInstructionTest(Register& r0, Register& r1, Register& r2, Register& r3)
+bool subtractionInstructionTest(Register* r0, Register* r1, Register* r2, Register* r3)
 {
     return false;
 }
 
-bool branchingInstructionTest(Register& r0, Register& r1, Register& r2, Register& r3)
+bool branchingInstructionTest(Register* r0, Register* r1, Register* r2, Register* r3)
 {
-    if ((r0.registerValue == -8) &&  (r1.registerValue == 7) && (r2.registerValue == -14) && (r3.registerValue == 0))
+    if ((r0->registerValue == -8) &&  (r1->registerValue == 7) && (r2->registerValue == -14) && (r3->registerValue == 0))
     {
         return true;
     }

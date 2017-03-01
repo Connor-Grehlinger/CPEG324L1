@@ -1,14 +1,14 @@
 /* Connor Grehlinger, CPEG324 ISA simulator */
-
+#include <stdbool.h>
 #include "simulator.h"
 #include "benchmark.h"
 
 
 // Four addressable registers for simualtor, initial value of 0
-Register r0 = {.registerValue = 0};
-Register r1 = {.registerValue = 0};
-Register r2 = {.registerValue = 0};
-Register r3 = {.registerValue = 0};
+Register *r0 = {0};
+Register *r1 = {0};
+Register *r2 = {0};
+Register *r3 = {0};
 
 int binaryInstructions[1000];
 
@@ -246,8 +246,8 @@ int main(int argc, char **argv)
     double totalSimTime = startTime - endTime;
     
     printf("Running in test mode %i. Test outcome: %i (1 = pass, 0 = fail).\n", testMode, testOutcome);
-    printf("End. Simulator time: %f . Register values: r0 = %i, r1 = %i, r2 = %i, r3 = %i \n", totalSimTime, r0.registerValue,
-    r1.registerValue, r2.registerValue, r3.registerValue);
+    printf("End. Simulator time: %f . Register values: r0 = %i, r1 = %i, r2 = %i, r3 = %i \n", totalSimTime, r0->registerValue,
+    r1->registerValue, r2->registerValue, r3->registerValue);
     
     
     return 0;

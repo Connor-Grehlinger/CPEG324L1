@@ -6,12 +6,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 
-struct Register
-{
+typedef struct Register {
     int registerValue;
-};
+} Register;
 
 
 // now you have actual integer binary instructions, you can just (number >> 7) & 1, etc.
@@ -49,12 +49,12 @@ must be 0000        */
 int getImmediateValue(int instruction);
 
 /* Return the content of a specified register */
-int getRegisterContent(unsigned int registerNumber, Register& r0, Register& r1,
-                        Register& r2, Register& r3);
+int getRegisterContent(unsigned int registerNumber, Register *r0, Register *r1,
+                        Register *r2, Register *r3);
 
 /* Set the content of a specified register    */
-void setRegisterContent(unsigned int registerNumber, int result, Register& r0, 
-Register& r1, Register& r2, Register& r3);
+void setRegisterContent(unsigned int registerNumber, int result, Register *r0, 
+Register *r1, Register *r2, Register *r3);
 
 /* Handles sign-extended immediate values     */
 int signExtensionConvert(int immediate);
