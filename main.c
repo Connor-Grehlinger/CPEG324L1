@@ -23,7 +23,7 @@ int main(int argc, char **argv)
     4 --> register compare and branching test
     */
     
-    unsigned int testMode = 4;
+    unsigned int testMode = 3;
     const char* inFile;
     
     switch(testMode)
@@ -91,38 +91,6 @@ int main(int argc, char **argv)
     
     unsigned int totalNumberOfInstructions = instructionNumber + 1;
     
-    /*
-    printf("Test instruction value %i \n", binaryInstructions[0]);
-    printf("Test instruction value %i \n", binaryInstructions[1]);
-    printf("Test instruction value %i \n", binaryInstructions[2]);
-    printf("Test instruction value %i \n", binaryInstructions[3]);
-    printf("Test instruction value %i \n", binaryInstructions[4]);
-
-    bool iCodeTest = isAType(binaryInstructions[0]);
-    bool iCodeTest2 = isAType(binaryInstructions[2]);
-    
-    bool opCodeTest = isAddition(binaryInstructions[0]);
-    bool opCodeTestN = isAddition(binaryInstructions[1]);
-    
-    printf("iCodeTest = %i \n", iCodeTest);
-    printf("iCodeTest2 = %i \n", iCodeTest2);
-    
-    printf("opCodeTest = %i \n", opCodeTest);
-    printf("opCodeTestN = %i \n", opCodeTestN);
-
-    int reg1Value = destReg(binaryInstructions[0]);
-    int reg1Value2 = destReg(binaryInstructions[1]);
-    
-    printf("source1 register = %i \n", reg1Value);
-    printf("source1 register2 = %i \n", reg1Value2);
-    
-    int imm = immediateValue(binaryInstructions[4]);
-    printf("Immediate value = %i \n", imm);
-    
-    // Have a loop to iterate through all the newly created 
-    // instructions in the array of instructions 
-    */
-    
     unsigned int instruction_index;
     
     for (instruction_index = 0; instruction_index < totalNumberOfInstructions; instruction_index++)
@@ -138,9 +106,9 @@ int main(int argc, char **argv)
                 unsigned int source2 = source2Reg(binaryInstructions[instruction_index]);
                 unsigned int dest = destReg(binaryInstructions[instruction_index]);
                 
-                int firstOp = getRegisterContent(source1, r0, r1, r2, r3);
-                int secondOp = getRegisterContent(source2, r0, r1, r2, r3);
-                int sum = firstOp + secondOp;
+                signed char firstOp = getRegisterContent(source1, r0, r1, r2, r3);
+                signed char secondOp = getRegisterContent(source2, r0, r1, r2, r3);
+                signed char sum = firstOp + secondOp;
                 printf("(r%i: %i) + (r%i: %i) = (r%i: %i) \n", source1, firstOp, source2, secondOp, dest, sum);
                 setRegisterContent(dest, sum, r0, r1, r2, r3);
             }
@@ -152,9 +120,9 @@ int main(int argc, char **argv)
                 unsigned int source2 = source2Reg(binaryInstructions[instruction_index]);
                 unsigned int dest = destReg(binaryInstructions[instruction_index]);
                 
-                int firstOp = getRegisterContent(source1, r0, r1, r2, r3);
-                int secondOp = getRegisterContent(source2, r0, r1, r2, r3);
-                int diff = firstOp - secondOp;
+                signed char firstOp = getRegisterContent(source1, r0, r1, r2, r3);
+                signed char secondOp = getRegisterContent(source2, r0, r1, r2, r3);
+                signed char diff = firstOp - secondOp;
                 printf("(r%i: %i) - (r%i: %i) = (r%i: %i) \n", source1, firstOp, source2, secondOp, dest, diff);
                 setRegisterContent(dest, diff, r0, r1, r2, r3);
             }

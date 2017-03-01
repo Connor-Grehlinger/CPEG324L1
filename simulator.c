@@ -63,16 +63,16 @@ unsigned int destReg(int instruction)
 /* Identifies the immediate value,
 immediate values for print operations
 must be 0000        */
-int getImmediateValue(int instruction)
+signed char getImmediateValue(int instruction)
 {
     return (instruction & 0b1111);
 }
 
 /* Return the content of a specified register */
-int getRegisterContent(unsigned int registerNumber, Register& r0, Register& r1,
+signed char getRegisterContent(unsigned int registerNumber, Register& r0, Register& r1,
                         Register& r2, Register& r3)
 {
-    int registerContent;
+    signed char registerContent;
     
     switch (registerNumber)
     {
