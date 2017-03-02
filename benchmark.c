@@ -36,7 +36,7 @@ bool loadingImmediatesTest(Register* r0, Register* r1, Register* r2, Register* r
 
 bool additionInstructionTest(Register* r0, Register* r1, Register* r2, Register* r3)
 {
-    if ((r0.registerValue == -8) &&  (r1.registerValue == 7) && (r2.registerValue == 1) && (r3.registerValue == -15))
+    if ((r0->registerValue == -8) &&  (r1->registerValue == 7) && (r2->registerValue == 1) && (r3->registerValue == -15))
     {
         return true;
     }
@@ -45,7 +45,7 @@ bool additionInstructionTest(Register* r0, Register* r1, Register* r2, Register*
 
 bool subtractionInstructionTest(Register* r0, Register* r1, Register* r2, Register* r3)
 {
-    if ((r0.registerValue == 12) &&  (r1.registerValue == -12) && (r2.registerValue == 4) && (r3.registerValue == 16))
+    if ((r0->registerValue == 12) &&  (r1->registerValue == -12) && (r2->registerValue == 4) && (r3->registerValue == 16))
     {
         return true;
     }

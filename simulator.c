@@ -28,7 +28,7 @@ bool isLoadI(int instruction)
 }
 
 /* Identifies the target register number    */
-signed char targetReg(int instruction)
+unsigned int targetReg(int instruction)
 {
     int reg1 = (instruction >> 4);
     reg1 &= 0b0011;
@@ -36,7 +36,7 @@ signed char targetReg(int instruction)
 }
 
 /* Identifies source1 register number  */
-signed char source1Reg(int instruction)
+unsigned int source1Reg(int instruction)
 {
     int reg1 = (instruction >> 4);
     reg1 &= 0b0011;
@@ -44,7 +44,7 @@ signed char source1Reg(int instruction)
 }
 
 /* Identifies source2 register number  */
-signed char source2Reg(int instruction)
+unsigned int source2Reg(int instruction)
 {
     int reg2 = (instruction >> 2);
     reg2 &= 0b0011;
@@ -52,7 +52,7 @@ signed char source2Reg(int instruction)
 }
 
 /* Identifies destination register number  */
-signed char destReg(int instruction)
+unsigned int destReg(int instruction)
 {
     int dstReg = instruction;
     dstReg &= 0b0011;

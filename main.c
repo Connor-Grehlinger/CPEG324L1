@@ -11,7 +11,7 @@ static struct Register *r1 = &(struct Register) {.registerValue = 0};
 static struct Register *r2 = &(struct Register) {.registerValue = 0};
 static struct Register *r3 = &(struct Register) {.registerValue = 0};
 
-int binaryInstructions[10000];
+int binaryInstructions[100000];     
 
 int main(int argc, char **argv)
 {
@@ -99,7 +99,7 @@ int main(int argc, char **argv)
             if (isAddition(binaryInstructions[instruction_index]))
             {
                 // Decode registers for addition operation
-                printf("Addition\n");
+                //printf("Addition\n");
                 unsigned int source1 = source1Reg(binaryInstructions[instruction_index]);
                 unsigned int source2 = source2Reg(binaryInstructions[instruction_index]);
                 unsigned int dest = destReg(binaryInstructions[instruction_index]);
@@ -107,13 +107,13 @@ int main(int argc, char **argv)
                 signed char firstOp = getRegisterContent(source1, r0, r1, r2, r3);
                 signed char secondOp = getRegisterContent(source2, r0, r1, r2, r3);
                 signed char sum = firstOp + secondOp;
-                printf("(r%i: %i) + (r%i: %i) = (r%i: %i) \n", source1, firstOp, source2, secondOp, dest, sum);
+                //printf("(r%i: %i) + (r%i: %i) = (r%i: %i) \n", source1, firstOp, source2, secondOp, dest, sum);
                 setRegisterContent(dest, sum, r0, r1, r2, r3);
             }
             else
             {
                 // Decode registers for subtraction operation 
-                printf("Subtraction\n");
+                //printf("Subtraction\n");
                 unsigned int source1 = source1Reg(binaryInstructions[instruction_index]);
                 unsigned int source2 = source2Reg(binaryInstructions[instruction_index]);
                 unsigned int dest = destReg(binaryInstructions[instruction_index]);
@@ -121,7 +121,7 @@ int main(int argc, char **argv)
                 signed char firstOp = getRegisterContent(source1, r0, r1, r2, r3);
                 signed char secondOp = getRegisterContent(source2, r0, r1, r2, r3);
                 signed char diff = firstOp - secondOp;
-                printf("(r%i: %i) - (r%i: %i) = (r%i: %i) \n", source1, firstOp, source2, secondOp, dest, diff);
+                //printf("(r%i: %i) - (r%i: %i) = (r%i: %i) \n", source1, firstOp, source2, secondOp, dest, diff);
                 setRegisterContent(dest, diff, r0, r1, r2, r3);
             }
         }
@@ -132,7 +132,7 @@ int main(int argc, char **argv)
             {
                 unsigned int targetRegNum = targetReg(binaryInstructions[instruction_index]);
                 signed char immediateVal = signExtensionConvert(getImmediateValue(binaryInstructions[instruction_index]));
-                printf("Loading immediate value: %i into r%i \n", immediateVal, targetRegNum);
+                //printf("Loading immediate value: %i into r%i \n", immediateVal, targetRegNum);
                 setRegisterContent(targetRegNum, immediateVal, r0, r1, r2, r3);
             }
             else
@@ -144,18 +144,18 @@ int main(int argc, char **argv)
                     unsigned int targetRegNum = targetReg(binaryInstructions[instruction_index]);
                     signed char registerValue = getRegisterContent(targetRegNum, r0, r1, r2, r3);
                     
-                    printf("Branching based on r%i, whose value is: %i \n", targetRegNum, registerValue);
+                    //printf("Branching based on r%i, whose value is: %i \n", targetRegNum, registerValue);
                     
                     if (registerValue == 0)
                     {
                         if (getImmediateValue(binaryInstructions[instruction_index]) == 1)
                         {
-                            printf("Next instruction skipped. \n");
+                            //printf("Next instruction skipped. \n");
                             instruction_index++;        // skip the next instruction
                         }
                         else if (getImmediateValue(binaryInstructions[instruction_index]) == 2)
                         {
-                            printf("Next two instructions skipped. \n");
+                            //printf("Next two instructions skipped. \n");
                             instruction_index+=2;     // skip the next two instructions 
                         }
                         else
@@ -166,7 +166,7 @@ int main(int argc, char **argv)
                     }
                     else
                     {
-                        printf("Target register value != 0. Branch not taken. \n");
+                        //printf("Target register value != 0. Branch not taken. \n");
                         continue;
                     }
                 }
@@ -209,7 +209,7 @@ int main(int argc, char **argv)
     }
     
     double endTime = getTime();
-    double totalSimTime = startTime - endTime;
+    double totalSimTime = endTime - startTime;
     
     printf("Running in test mode %i. Test outcome: %i (1 = pass, 0 = fail).\n", testMode, testOutcome);
     printf("End. Simulator time: %f . Register values: r0 = %i, r1 = %i, r2 = %i, r3 = %i \n", totalSimTime, r0->registerValue,
