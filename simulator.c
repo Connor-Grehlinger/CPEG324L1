@@ -10,6 +10,7 @@ returns true for A-type instructions,
 false for I-type instructions    */
 bool isAType(int instruction)
 {
+    printf("inside function\n");
     return !((instruction >> 7) & 1);
 }
 
@@ -64,16 +65,16 @@ int destReg(int instruction)
 /* Identifies the immediate value,
 immediate values for print operations
 must be 0000        */
-int getImmediateValue(int instruction)
+signed char getImmediateValue(int instruction)
 {
     return (instruction & 0b1111);
 }
 
 /* Return the content of a specified register */
-int getRegisterContent(unsigned int registerNumber, Register* r0, Register* r1,
+signed char getRegisterContent(unsigned int registerNumber, Register* r0, Register* r1,
                         Register* r2, Register* r3)
 {
-    int registerContent;
+    signed char registerContent;
     
     switch (registerNumber)
     {
@@ -104,7 +105,9 @@ void setRegisterContent(unsigned int registerNumber, int result, Register* r0,
     switch (registerNumber)
     {
         case 0:
+        printf("loading immediate dawg \n");
         r0->registerValue = result;
+        printf("done dawg \n");
         break;
         
         case 1:
@@ -122,7 +125,7 @@ void setRegisterContent(unsigned int registerNumber, int result, Register* r0,
 }
 
 /* Handles sign-extended immediate values     */
-int signExtensionConvert(int immediate)
+signed char signExtensionConvert(int immediate)
 {
     // check sign bit 
     short isNegative = (immediate & (1 << 3)) != 0;

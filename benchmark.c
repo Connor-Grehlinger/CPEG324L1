@@ -19,10 +19,6 @@ double getTime()
 
 bool initialValueAndPrintTest(Register* r0, Register* r1, Register* r2, Register* r3)
 {
-    // assert(r0->registerValue, 0);
-    // assert(r1->registerValue, 0);
-    // assert(r2->registerValue, 0);
-    // assert(r3->registerValue, 0);
     if((!r0->registerValue) && (!r1->registerValue) && (!r2->registerValue) && (!r3->registerValue))
     {
         return true;

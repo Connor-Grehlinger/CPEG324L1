@@ -46,10 +46,10 @@ int destReg(int instruction);
 /* Identifies the immediate value,
 immediate values for print operations
 must be 0000        */
-int getImmediateValue(int instruction);
+signed char getImmediateValue(int instruction);
 
 /* Return the content of a specified register */
-int getRegisterContent(unsigned int registerNumber, Register *r0, Register *r1,
+signed char getRegisterContent(unsigned int registerNumber, Register *r0, Register *r1,
                         Register *r2, Register *r3);
 
 /* Set the content of a specified register    */
@@ -57,7 +57,7 @@ void setRegisterContent(unsigned int registerNumber, int result, Register *r0,
 Register *r1, Register *r2, Register *r3);
 
 /* Handles sign-extended immediate values     */
-int signExtensionConvert(int immediate);
+signed char signExtensionConvert(int immediate);
 
 /* Determines whether an I-type instruction 
 with opcode 1 is a print instructon   */

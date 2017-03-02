@@ -3,15 +3,15 @@
 #include "simulator.h"
 #include "benchmark.h"
 
-
 // Four addressable registers for simualtor, initial value of 0
-Register *r0 = {0};
-Register *r1 = {0};
-Register *r2 = {0};
-Register *r3 = {0};
 
-int binaryInstructions[1000];
+// Declare pointers to register structs 
+static struct Register *r0 = &(struct Register) {.registerValue = 0};
+static struct Register *r1 = &(struct Register) {.registerValue = 0};
+static struct Register *r2 = &(struct Register) {.registerValue = 0};
+static struct Register *r3 = &(struct Register) {.registerValue = 0};
 
+int binaryInstructions[10000];
 
 int main(int argc, char **argv)
 {
@@ -68,10 +68,8 @@ int main(int argc, char **argv)
     }
     else
     {
-        
         while ((c = fgetc(simulator_input)) != EOF)     // While input file is valid
         {
-            
             currentInstruction <<= 1;                   // Shift left by 1 is multiplying by 2
             if (c == '1') 
             {
@@ -90,38 +88,6 @@ int main(int argc, char **argv)
     }
     
     unsigned int totalNumberOfInstructions = instructionNumber + 1;
-    
-    /*
-    printf("Test instruction value %i \n", binaryInstructions[0]);
-    printf("Test instruction value %i \n", binaryInstructions[1]);
-    printf("Test instruction value %i \n", binaryInstructions[2]);
-    printf("Test instruction value %i \n", binaryInstructions[3]);
-    printf("Test instruction value %i \n", binaryInstructions[4]);
-
-    bool iCodeTest = isAType(binaryInstructions[0]);
-    bool iCodeTest2 = isAType(binaryInstructions[2]);
-    
-    bool opCodeTest = isAddition(binaryInstructions[0]);
-    bool opCodeTestN = isAddition(binaryInstructions[1]);
-    
-    printf("iCodeTest = %i \n", iCodeTest);
-    printf("iCodeTest2 = %i \n", iCodeTest2);
-    
-    printf("opCodeTest = %i \n", opCodeTest);
-    printf("opCodeTestN = %i \n", opCodeTestN);
-
-    int reg1Value = destReg(binaryInstructions[0]);
-    int reg1Value2 = destReg(binaryInstructions[1]);
-    
-    printf("source1 register = %i \n", reg1Value);
-    printf("source1 register2 = %i \n", reg1Value2);
-    
-    int imm = immediateValue(binaryInstructions[4]);
-    printf("Immediate value = %i \n", imm);
-    
-    // Have a loop to iterate through all the newly created 
-    // instructions in the array of instructions 
-    */
     
     unsigned int instruction_index;
     
@@ -166,7 +132,7 @@ int main(int argc, char **argv)
             {
                 unsigned int targetRegNum = targetReg(binaryInstructions[instruction_index]);
                 int immediateVal = signExtensionConvert(getImmediateValue(binaryInstructions[instruction_index]));
-                //printf("Loading immediate value: %i into r%i \n", immediateVal, targetRegNum);
+                printf("Loading immediate value: %i into r%i \n", immediateVal, targetRegNum);
                 setRegisterContent(targetRegNum, immediateVal, r0, r1, r2, r3);
             }
             else
@@ -209,7 +175,7 @@ int main(int argc, char **argv)
                 {
                     // Print instruction 
                     unsigned int targetRegNum = targetReg(binaryInstructions[instruction_index]);
-                    int printValue = getRegisterContent(targetRegNum, r0, r1, r2, r3);
+                    signed char printValue = getRegisterContent(targetRegNum, r0, r1, r2, r3);
                     printf("Register $r%i content: %i \n", targetRegNum, printValue);
                 }
             }
