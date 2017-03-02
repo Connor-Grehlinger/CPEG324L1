@@ -1,8 +1,6 @@
 /* Connor Grehlinger, CPEG324
-C source file for ISA simulator 
-*/
+C source file for ISA simulator */
 
-#include <stdbool.h>
 #include "simulator.h"
 
 /* Identifies instruction-type, 
@@ -10,7 +8,6 @@ returns true for A-type instructions,
 false for I-type instructions    */
 bool isAType(int instruction)
 {
-    printf("inside function\n");
     return !((instruction >> 7) & 1);
 }
 
@@ -31,7 +28,7 @@ bool isLoadI(int instruction)
 }
 
 /* Identifies the target register number    */
-int targetReg(int instruction)
+signed char targetReg(int instruction)
 {
     int reg1 = (instruction >> 4);
     reg1 &= 0b0011;
@@ -39,7 +36,7 @@ int targetReg(int instruction)
 }
 
 /* Identifies source1 register number  */
-int source1Reg(int instruction)
+signed char source1Reg(int instruction)
 {
     int reg1 = (instruction >> 4);
     reg1 &= 0b0011;
@@ -47,7 +44,7 @@ int source1Reg(int instruction)
 }
 
 /* Identifies source2 register number  */
-int source2Reg(int instruction)
+signed char source2Reg(int instruction)
 {
     int reg2 = (instruction >> 2);
     reg2 &= 0b0011;
@@ -55,7 +52,7 @@ int source2Reg(int instruction)
 }
 
 /* Identifies destination register number  */
-int destReg(int instruction)
+signed char destReg(int instruction)
 {
     int dstReg = instruction;
     dstReg &= 0b0011;
@@ -105,9 +102,7 @@ void setRegisterContent(unsigned int registerNumber, int result, Register* r0,
     switch (registerNumber)
     {
         case 0:
-        printf("loading immediate dawg \n");
         r0->registerValue = result;
-        printf("done dawg \n");
         break;
         
         case 1:
@@ -120,7 +115,6 @@ void setRegisterContent(unsigned int registerNumber, int result, Register* r0,
         
         default:
         r3->registerValue = result;
-        
     }
 }
 
@@ -152,8 +146,5 @@ bool isPrintInstruction(int instruction)
     {
         return true;
     }
-    else
-    {
-        return false;
-    }
+    return false;
 }

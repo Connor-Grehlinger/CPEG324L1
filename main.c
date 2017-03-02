@@ -104,9 +104,9 @@ int main(int argc, char **argv)
                 unsigned int source2 = source2Reg(binaryInstructions[instruction_index]);
                 unsigned int dest = destReg(binaryInstructions[instruction_index]);
                 
-                int firstOp = getRegisterContent(source1, r0, r1, r2, r3);
-                int secondOp = getRegisterContent(source2, r0, r1, r2, r3);
-                int sum = firstOp + secondOp;
+                signed char firstOp = getRegisterContent(source1, r0, r1, r2, r3);
+                signed char secondOp = getRegisterContent(source2, r0, r1, r2, r3);
+                signed char sum = firstOp + secondOp;
                 printf("(r%i: %i) + (r%i: %i) = (r%i: %i) \n", source1, firstOp, source2, secondOp, dest, sum);
                 setRegisterContent(dest, sum, r0, r1, r2, r3);
             }
@@ -118,9 +118,9 @@ int main(int argc, char **argv)
                 unsigned int source2 = source2Reg(binaryInstructions[instruction_index]);
                 unsigned int dest = destReg(binaryInstructions[instruction_index]);
                 
-                int firstOp = getRegisterContent(source1, r0, r1, r2, r3);
-                int secondOp = getRegisterContent(source2, r0, r1, r2, r3);
-                int diff = firstOp - secondOp;
+                signed char firstOp = getRegisterContent(source1, r0, r1, r2, r3);
+                signed char secondOp = getRegisterContent(source2, r0, r1, r2, r3);
+                signed char diff = firstOp - secondOp;
                 printf("(r%i: %i) - (r%i: %i) = (r%i: %i) \n", source1, firstOp, source2, secondOp, dest, diff);
                 setRegisterContent(dest, diff, r0, r1, r2, r3);
             }
@@ -131,7 +131,7 @@ int main(int argc, char **argv)
             if (isLoadI(binaryInstructions[instruction_index]))
             {
                 unsigned int targetRegNum = targetReg(binaryInstructions[instruction_index]);
-                int immediateVal = signExtensionConvert(getImmediateValue(binaryInstructions[instruction_index]));
+                signed char immediateVal = signExtensionConvert(getImmediateValue(binaryInstructions[instruction_index]));
                 printf("Loading immediate value: %i into r%i \n", immediateVal, targetRegNum);
                 setRegisterContent(targetRegNum, immediateVal, r0, r1, r2, r3);
             }
@@ -142,7 +142,7 @@ int main(int argc, char **argv)
                 {
                     // Branch instruction
                     unsigned int targetRegNum = targetReg(binaryInstructions[instruction_index]);
-                    int registerValue = getRegisterContent(targetRegNum, r0, r1, r2, r3);
+                    signed char registerValue = getRegisterContent(targetRegNum, r0, r1, r2, r3);
                     
                     printf("Branching based on r%i, whose value is: %i \n", targetRegNum, registerValue);
                     

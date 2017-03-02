@@ -32,16 +32,16 @@ false for print or branch   */
 bool isLoadI(int instruction);
 
 /* Identifies the target register number    */
-int targetReg(int instruction);
+unsigned int targetReg(int instruction);
 
 /* Identifies source1 register number  */
-int source1Reg(int instruction);
+unsigned int source1Reg(int instruction);
 
 /* Identifies source2 register number  */
-int source2Reg(int instruction);
+unsigned int source2Reg(int instruction);
 
 /* Identifies destination register number  */
-int destReg(int instruction);
+unsigned int destReg(int instruction);
 
 /* Identifies the immediate value,
 immediate values for print operations
