@@ -1,2 +1,2 @@
 # CPEG324L1
-Lab 1 for Computer Systems Design
+Repository for CPEG324 course, lab 1
